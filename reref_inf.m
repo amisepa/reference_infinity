@@ -36,6 +36,9 @@ end
 if length(size(EEG.data)) == 3
     errordlg('Data must be continuous (not epoched)'); return
 end
+if EEG.nbchan < 16
+    warning('This referencing method has not beed tested with less than 30 channels and may result in incorrect transformations of your data.'); 
+end
 
 % Calculate leadfield using coordinates from EEG.chanlocs
 channels = 1:EEG.nbchan;  %Channels to select for REST referencing (e.g. 1:EEG.nbchan)
@@ -55,7 +58,7 @@ end
 programPath = fileparts(which('pop_REST_reref.m'));
 xyz_dipoles = load(fullfile(programPath,'corti869-3000dipoles.dat'));
 % dipfitPath = fileparts(which('dipfitdefs.m'));
-% load(fullfile(dipfitPath,'standard_BEM','standard_vol.mat'));         % head model compatible with Fieldtrip
+% load(fullfile(dipfitPath,'standard_BEM','standard_vol.mat'));  % head model compatible with Fieldtrip
 
 % Calculate the dipole orientations.
 xyz_dipOri = bsxfun(@rdivide, xyz_dipoles, sqrt(sum(xyz_dipoles.^ 2, 2)));
@@ -78,7 +81,6 @@ if size(EEG.data,1) ~= size(G,1)
     errordlg('No. of Channels in lead field matrix and EEG data are NOT equal!','Data Error');
     return
 else
-
     % Reference to REST
     Gar = G - repmat(mean(G),size(G,1),1);
     data_z = G * pinv(Gar,0.05) * EEG.data;  %0.05 for real data (may be set to 0 for simulated data)
