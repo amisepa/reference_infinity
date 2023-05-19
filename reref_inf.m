@@ -28,22 +28,22 @@
 
 function EEG = reref_inf(EEG)
 
-disp('----------- RE-REFERENCING DATA TO REST/INFINITY AVERAGE ---------------');
+disp('Re-referencing EEG data to infinity...');
 
 if isempty(EEG.data)
-    errordlg('EEG.data is empty. Import data in EEGLAB first'); return
+    error('EEG.data is empty. Import data in EEGLAB first');
 end
 if length(size(EEG.data)) == 3
-    errordlg('Data must be continuous (not epoched)'); return
+    error('Data must be continuous (not epoched)');
 end
-if EEG.nbchan < 16
+if EEG.nbchan < 32
     warning('This referencing method has not beed tested with less than 30 channels and may result in incorrect transformations of your data.'); 
 end
 
 % Calculate leadfield using coordinates from EEG.chanlocs
 channels = 1:EEG.nbchan;  %Channels to select for REST referencing (e.g. 1:EEG.nbchan)
 if ~isempty(EEG.chanlocs(1).X) && ~isempty(EEG.chanlocs(1).Y) &&~isempty(EEG.chanlocs(1).Z)
-    disp('Calculating leadfield based on 3-concentric spheres headmodel...');
+    disp('  - Calculating leadfield based on 3-concentric spheres headmodel...');
     xyz_elec = zeros(length(channels),3);
     for nc = 1:length(channels)
         xyz_elec(nc,1) = EEG.chanlocs(channels(nc)).X;
@@ -51,7 +51,7 @@ if ~isempty(EEG.chanlocs(1).X) && ~isempty(EEG.chanlocs(1).Y) &&~isempty(EEG.cha
         xyz_elec(nc,3) = EEG.chanlocs(channels(nc)).Z;
     end
 else
-    errordlg('EEG coordinates (EEG.chanlocs.X/Y/Z) are empty, please load channel locations in EEGLAB first.','Data Error'); return
+    error('EEG coordinates (EEG.chanlocs.X/Y/Z) are empty, please load channel locations in EEGLAB first.'); 
 end
 
 % Load fixed dipoles and define their orientations (file with dipole coordinates can be defined by GUI)
@@ -77,19 +77,26 @@ headmodel.tissue = { 'brain' 'skull' 'scalp' };
 % Calculate leadfield
 [G,~] = dong_calc_leadfield3(xyz_elec,xyz_dipoles,xyz_dipOri,headmodel);
 
-if size(EEG.data,1) ~= size(G,1)
-    errordlg('No. of Channels in lead field matrix and EEG data are NOT equal!','Data Error');
-    return
-else
-    % Reference to REST
+% Apply re-reference to infinity
+if size(EEG.data,1) == size(G,1)
     Gar = G - repmat(mean(G),size(G,1),1);
     data_z = G * pinv(Gar,0.05) * EEG.data;  %0.05 for real data (may be set to 0 for simulated data)
     data_z = EEG.data + repmat(mean(data_z),size(G,1),1); % V = V_avg + AVG(V_0)
-        
-    % Outputs
     EEG.data = data_z;
     EEG.ref = 'rest';
     EEG = eeg_checkset(EEG);
-    disp('EEG data were successfully average-referenced to REST/INFINITY.');
+    disp('EEG data were successfully referenced to infinity.');
+
+    fprintf("Please cite: \n    Yao D. (2001) A method to standardize a reference " + ...
+    "of scalp EEG recordings to a point at infinity. \n    Dong L., Fali L., " + ...
+    "Qiang L., Xin W., Yongxiu L., Peng X. and Dezhong Y (2017). MATLAB " + ...
+    "Toolboxes for Reference Electrode Standardization Technique (REST) of Scalp EEG. \n" + ...
+    "    Hu S., Lai Y., Valdes-Sosa P., Bringas-Vega M., & Yao D. (2018)." + ...
+    " How do reference montage and electrodes setup affect the measured scalp EEG potentials? \n" + ...
+    "    Yao D., Qin Y., Hu S., Dong L., Vega M., & Sosa P. (2019). " + ...
+    "Which Reference Should We Use for EEG and ERP practice? \n")
+
+else
+    error('No. of Channels in lead field matrix and EEG data are not equal. This may be due to AUX channels still present in the data.');
 end
 
