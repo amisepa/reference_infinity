@@ -76,6 +76,8 @@
 
 function [EEG, com] = ref_infinity(EEG,varargin)
 
+com = '';
+
 % Checks
 if isempty(EEG.data)
     error('EEG.data is empty. Import data in EEGLAB first');
@@ -199,7 +201,7 @@ EEG = eeg_checkset(EEG);
 disp('EEG data were successfully referenced to infinity.');
 
 % eegh
-com = "EEG = ref_infinity(EEG);";
+com = 'EEG = ref_infinity(EEG);';
 
 % cite
 fprintf("When using this code, please cite: \n    Yao (2001) A method to " + ...
