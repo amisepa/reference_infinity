@@ -35,11 +35,12 @@ EEG = reref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify anothe
 This sample dataset (Neuroscan) contains 64-channel epoched data from one subject visualizing images from the IAPS database with either unpleasant or neutral emotional valence. Data were cleaned with ASR and ICA and epoched.
 
 Sample data referenced to REST with the original plugin (GUI) vs this command line version, to ensure there are no errors in the new code
+
 ![rest_cmd-rest_gui](https://github.com/amisepa/reference_infinity/assets/58382227/5f09fafd-4222-4f46-9434-51abad26ddde)
 
 Comparisons of signal amplitude between data referenced to infinity vs average, showing small differences (red is AV-ref data):
 
-![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/91c3fe5d-1d49-4eaf-a489-c82c3e72f99d)
+![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/433f4041-f4ac-46ef-aaa3-35a8569a7545)
 
 
 Comparisons of the power spectra between REST-ref and AV-ref:
