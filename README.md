@@ -1,8 +1,9 @@
 # reref_infinity()
-This EEGLAB plugins allows re-referening EEG data (continuous or epoched) to infinity using the reference electrode standardization technique (REST).
+This EEGLAB plugin allows re-referening EEG data (continuous or epoched) to infinity using the reference electrode standardization technique (REST).
 Because the REST plugin developed by Dong et al. (2017) can only be used with the GUI, it cannot be automated to process files automatically. 
-This plugin allows to use the REST method via commad line, using the default parameters and 3-concentric sphere head model. 
+This plugin allows using the REST method via command line, using the default parameters and 3-concentric sphere head model. 
 By default, the leadfield matrix is calculated from the electrodes cartesian coordinates. Users can input a different leadfield matrix or dipoles file, if needed. 
+The method works for both continuous and epoched data (epoched data are converted back to continuous for referencing and then converted back to epoched). 
 
 Please cite these references when using this code:
 Yao (2001). A method to standardize a reference of scalp EEG recordings to a point at infinity. Physiol Meas.
@@ -31,16 +32,17 @@ EEG = reref_inf(EEG, ,'leadfield','your_leadfield_file');       % specify anothe
 EEG = reref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
 
 ## Quick tests on sample data
-This sample dataset (Neuroscan) contains ERP data from one subject visualizing images from the IAPS database with either unpleasant or neutral emotional valence. Data were cleaned with ASR and ICA and epoched.
+This sample dataset (Neuroscan) contains 64-channel epoched data from one subject visualizing images from the IAPS database with either unpleasant or neutral emotional valence. Data were cleaned with ASR and ICA and epoched.
 
 Sample data referenced to REST with the original plugin (GUI) vs this command line version, to ensure there are no errors in the new code
 ![rest_cmd-rest_gui](https://github.com/amisepa/reference_infinity/assets/58382227/5f09fafd-4222-4f46-9434-51abad26ddde)
 
 Comparisons of signal amplitude between data referenced to infinity vs average, showing small differences (red is AV-ref data):
-![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/b72fc2f9-1e97-4929-a13b-027fb35a702c)
+![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/af38a32d-70ff-4502-b6f7-60de1ef4dbb4)
 
 
-## Other relevant references comparing/validating the infinity/REST reference:
+
+## Other relevant references on the infinity/REST reference:
 
 Yao et al. (2005). A comparative study of different references for EEG spectral mapping: the issue of the neutral reference and the use of the infinity reference
 
