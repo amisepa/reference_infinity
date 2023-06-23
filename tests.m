@@ -10,15 +10,18 @@ cd(mainPath)
 % Load sample data (not referenced but clean)
 EEG = pop_loadset('filename','sample_data.set','filepath',dataDir);
 
-% Re-reference continuous data to infinity
+% Re-reference epoched data to infinity
 restEEG = ref_infinity(EEG);
+
+% same but specify dipoles file
+% restEEG = ref_infinity(EEG,'dipoles','corti869-3000dipoles.dat');
 
 %% Load sample data referenced to REST using GUI to make sure they are the same
 
 restEEG2 = pop_loadset('filename','sample_data_rest.set','filepath',dataDir);
 vis_artifacts(restEEG,restEEG2);
 
-%% Compare with average reference
+%% Compare how REST and AV referencing affect power spectra and grand average ERP
 
 avEEG = pop_reref(EEG,[]);
 
@@ -27,7 +30,7 @@ avEEG = pop_reref(EEG,[]);
 vis_artifacts(restEEG,avEEG);
 
 % Compare PSD
-elec = find(strcmpi({EEG.chanlocs.labels},'FCZ'));
+elec = find(strcmpi({EEG.chanlocs.labels},'PO3'));
 % [~, pwr_ori, f] = get_psd(EEG.data,EEG.srate,.5,[1 30],4,0);
 [~, pwr_av, f] = get_psd(avEEG.data,EEG.srate,.5,[1 30],4,0);
 [~, pwr_rest, f] = get_psd(restEEG.data,EEG.srate,.5,[1 30],4,0);
@@ -58,7 +61,6 @@ figure; pop_timtopo(avEEG, [EEG.times(1) EEG.times(end)], []);
 figure; pop_timtopo(restEEG, [EEG.times(1) EEG.times(end)], []);
 
 % Compare ERP between unpleasant and neutral trials
-elec = find(strcmpi({EEG.chanlocs.labels},'POZ'));
 figure('color','w'); 
 subplot(3,1,1)
 neutral = pop_epoch(EEG, {'4'}, [-0.05 1],'epochinfo','yes');
