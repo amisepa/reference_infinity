@@ -30,6 +30,12 @@ EEG = reref_inf(EEG, ,'leadfield','your_leadfield_file');       % specify anothe
 
 EEG = reref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
 
+## Quick tests on sample data
+
+Sample data referenced to REST: GUI method vs command method --> showing no differences (as intended)
+![rest_cmd-rest_gui](https://github.com/amisepa/reference_infinity/assets/58382227/4c10c2d5-70bf-4f81-bb80-6ba512f9dcee)
+
+
 
 ## Other relevant references comparing/validating the infinity/REST reference:
 
