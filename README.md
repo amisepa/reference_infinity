@@ -40,6 +40,14 @@ Sample data referenced to REST with the original plugin (GUI) vs this command li
 Comparisons of signal amplitude between data referenced to infinity vs average, showing small differences (red is AV-ref data):
 ![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/af38a32d-70ff-4502-b6f7-60de1ef4dbb4)
 
+Comparisons of power spectra between REST-ref and AV-ref:
+![psd_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/e946bf02-a46f-476b-8a34-2807cf1afc34)
+
+Comparison of scalp topographies in theta and alpha bands:
+![topos_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/4da58e23-bb54-42a6-91f7-3790e6959d39)
+
+Comparison of the two conditions (unpleasant vs neutral images) using grand average ERP (and SD) for this subject:
+![ERP_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/3924c78f-9d3a-40b5-b9da-65a557a82d39)
 
 
 ## Other relevant references on the infinity/REST reference:
