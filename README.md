@@ -53,7 +53,7 @@ Comparison of scalp topographies in theta and alpha bands:
 ![topos_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/d9ac807c-1384-4729-9a1e-64019422af0c)
 
 
-Comparison of the two conditions (unpleasant vs neutral images) using grand average ERP (and SD) for this subject:
+Comparison of the two conditions (unpleasant vs neutral images) on average ERP (mean + 95% CI on electrodes) for this subject:
 
 ![ERP_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/8b935371-1859-4e8d-b887-33793a49e353)
 
