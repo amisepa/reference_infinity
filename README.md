@@ -1,8 +1,8 @@
 # reref_infinity()
-This EEGLAB plugin allows re-referening EEG data (continuous or epoched) to infinity using the reference electrode standardization technique (REST).
+This EEGLAB plugin allows re-referencing EEG data (continuous or epoched) to infinity using the reference electrode standardization technique (REST).
 Because the REST plugin developed by Dong et al. (2017) can only be used with the GUI, it cannot be automated to process files automatically. 
-This plugin allows using the REST method via command line, using the default parameters and 3-concentric sphere head model. 
-By default, the leadfield matrix is calculated from the electrodes cartesian coordinates. Users can input a different leadfield matrix or dipoles file, if needed. 
+This plugin allows using the REST method via the command line, using the default parameters and 3-concentric sphere head model. 
+By default, the leadfield matrix is calculated from the electrodes' cartesian coordinates. Users can input a different leadfield matrix or dipoles file, if needed. 
 The method works for both continuous and epoched data (epoched data are converted back to continuous for referencing and then converted back to epoched). 
 
 Please cite these references when using this code:
@@ -18,7 +18,7 @@ Dong et al. (2017). MATLAB Toolboxes for Reference Electrode Standardization Tec
 1) Have MATLAB and EEGLAB installed
 2) Install the plugin via:
     - the EEGLAB GUI: File > Manage extensions > ref_rest_cmd
-    - unzipping or cloning this Github repo into the EEGLAB's "plugins" folder
+    - unzipping or cloning this Github repo into EEGLAB's "plugins" folder
 3) Import EEG data into EEGLAB and remove auxiliary electrodes (option to exclude specific electrodes from the referencing not currently available)
 4) Have at least 30 electrodes to get reliable results
 5) channel locations loaded in the EEG structure (although the plugin will import the default BEM coordinates if not already loaded)
@@ -74,13 +74,13 @@ Chella et al. (2017). Non-linear Analysis of Scalp EEG by Using Bispectra: The E
 
 Dong et al. (2017). MATLAB Toolboxes for Reference Electrode Standardization Technique (REST) of Scalp EEG. Frontiers in Neuroscience.
 
-Lei et al. (2017). Undestanding the Influences of EEG Reference: A Large-Scale Brain Network Perspective. Frontiers in Neuroscience. 
+Lei et al. (2017). Understanding the Influences of EEG Reference: A Large-Scale Brain Network Perspective. Frontiers in Neuroscience. 
 
 Qin et al. (2017). A Comparative Study on the Dynamic EEG Center of Mass with Different References. Frontiers in Neuroscience. 
 
 Yang et al. (2017). A Comparative Study of Average, Linked Mastoid, and REST References for ERP Components Acquired during fMRI. Frontiers in Neuroscience. 
 
-Hu et al. (2018). How do reference montage and electrodes setup affect the measured scalp EEG potentials? Journal of Neural Engineering.
+Hu et al. (2018). How do reference montage and electrode setup affect the measured scalp EEG potentials? Journal of Neural Engineering.
 
 Zheng et al (2018). A Comparative Study of Standardized Infinity Reference and Average Reference for EEG of Three Typical Brain States. Frontiers in Neuroscience. 
 
