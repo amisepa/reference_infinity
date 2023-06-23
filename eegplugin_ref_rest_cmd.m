@@ -20,13 +20,13 @@
 % along with this program; if not, write to the Free Software
 % Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-function vers = eegplugin_ref_infinity_cmd(fig,try_strings,catch_strings)
+function vers = eegplugin_ref_rest_cmd(fig,try_strings,catch_strings)
 
 % Plugin version
 vers = '1.0';
 
 % Add paths to subfolders
-p = fileparts(which('eegplugin_ref_infinity_cmd.m'));
+p = fileparts(which('eegplugin_ref_rest_cmd.m'));
 addpath(p);
 addpath(fullfile(p,'sample_data'))
 addpath(fullfile(p,'files'))
@@ -35,5 +35,5 @@ cmd = [ try_strings.check_data '[EEG,LASTCOM] = ref_infinity(EEG);' catch_string
 
 % menu
 toolsmenu = findobj(fig, 'tag', 'tools');
-uimenu(toolsmenu, 'label', 'Reference data to infinity (REST) via command line','userdata', ...
+uimenu(toolsmenu, 'label', 'Reference data to infinity (REST; command line)','userdata', ...
     'startup:off;epoch:off;study:off','callback',cmd,'position',4);

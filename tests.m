@@ -5,6 +5,7 @@ eeglab; close;
 
 mainPath = fileparts(which('ref_infinity'));
 dataDir = fullfile(mainPath,'sample_data');
+addpath(fullfile(mainPath,'files'));
 cd(mainPath)
 
 % Load sample data (not referenced but clean)
@@ -12,6 +13,9 @@ EEG = pop_loadset('filename','sample_data.set','filepath',dataDir);
 
 % Re-reference continuous data to infinity
 restEEG = ref_infinity(EEG);
+
+% Same but specify dipoles file
+% restEEG = ref_infinity(EEG,'dipoles','corti869-3000dipoles.dat');
 
 %% Load sample data referenced to REST using GUI to make sure they are the same
 
@@ -27,12 +31,10 @@ avEEG = pop_reref(EEG,[]);
 vis_artifacts(restEEG,avEEG);
 
 % Compare PSD
-elec = find(strcmpi({EEG.chanlocs.labels},'FCZ'));
-% [~, pwr_ori, f] = get_psd(EEG.data,EEG.srate,.5,[1 30],4,0);
 [~, pwr_av, f] = get_psd(avEEG.data,EEG.srate,.5,[1 30],4,0);
 [~, pwr_rest, f] = get_psd(restEEG.data,EEG.srate,.5,[1 30],4,0);
-figure('color','w'); plotDiff(f, pwr_av', pwr_rest','Trimmed mean',[],'AV','REST')
-title('Power spectral density (95% CI on electrodes')
+figure('color','w'); plotDiff(f, pwr_av', pwr_rest','mean','sd',[],'AV','REST')
+title('Power spectral density (Mean + SD across electrodes)')
 
 % Scalp topo theta and alpha 
 theta_av = mean(pwr_av(:,f>=3 & f<=7),2);
@@ -63,16 +65,16 @@ figure('color','w');
 subplot(3,1,1)
 neutral = pop_epoch(EEG, {'4'}, [-0.05 1],'epochinfo','yes');
 unpleasant = pop_epoch(EEG, {'8'}, [-0.05 1],'epochinfo','yes');
-plotDiff( unpleasant.times, squeeze(unpleasant.data(elec,:,:)), squeeze(neutral.data(elec,:,:)),'Trimmed mean',[],'unpleasant','neutral')
-title('Original data'); box on; grid on;
+plotDiff( unpleasant.times, squeeze(unpleasant.data(elec,:,:)), squeeze(neutral.data(elec,:,:)),'mean','CI', [],'unpleasant','neutral')
+title(sprintf('Original data (%s)', EEG.chanlocs(elec).labels)); box on; %grid on;
 subplot(3,1,2)
 neutral = pop_epoch(avEEG, {'4'}, [-0.05 1],'epochinfo','yes');
 unpleasant = pop_epoch(avEEG, {'8'}, [-0.05 1],'epochinfo','yes');
-plotDiff( unpleasant.times, squeeze(unpleasant.data(elec,:,:)), squeeze(neutral.data(elec,:,:)),'Trimmed mean',[],'unpleasant','neutral')
-title('AV-ref'); box on; grid on;
+plotDiff( unpleasant.times, squeeze(unpleasant.data(elec,:,:)), squeeze(neutral.data(elec,:,:)),'mean','CI', [],'unpleasant','neutral')
+title(sprintf('AV-ref (%s)', EEG.chanlocs(elec).labels)); box on; %grid on;
 subplot(3,1,3)
 neutral = pop_epoch(restEEG, {'4'}, [-0.05 1],'epochinfo','yes');
 unpleasant = pop_epoch(restEEG, {'8'}, [-0.05 1],'epochinfo','yes');
-plotDiff( unpleasant.times, squeeze(unpleasant.data(elec,:,:)), squeeze(neutral.data(elec,:,:)),'Trimmed mean',[],'unpleasant','neutral')
-title('REST-ref'); box on; grid on;
+plotDiff( unpleasant.times, squeeze(unpleasant.data(elec,:,:)), squeeze(neutral.data(elec,:,:)),'mean','CI', [],'unpleasant','neutral')
+title(sprintf('REST-ref (%s)', EEG.chanlocs(elec).labels)); box on; %grid on;
 
