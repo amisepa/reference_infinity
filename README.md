@@ -31,10 +31,13 @@ EEG = reref_inf(EEG, ,'leadfield','your_leadfield_file');       % specify anothe
 EEG = reref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
 
 ## Quick tests on sample data
+This sample dataset (Neuroscan) contains ERP data from one subject visualizing images from the IAPS database with either unpleasant or neutral emotional valence. Data were cleaned with ASR and ICA and epoched.
 
-Sample data referenced to REST: GUI method vs command method --> showing no differences (as intended)
-![rest_cmd-rest_gui](https://github.com/amisepa/reference_infinity/assets/58382227/4c10c2d5-70bf-4f81-bb80-6ba512f9dcee)
+Sample data referenced to REST with the original plugin (GUI) vs this command line version, to ensure there are no errors in the new code
+![rest_cmd-rest_gui](https://github.com/amisepa/reference_infinity/assets/58382227/5f09fafd-4222-4f46-9434-51abad26ddde)
 
+Comparisons of signal amplitude between data referenced to infinity vs average, showing small differences (red is AV-ref data):
+![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/b72fc2f9-1e97-4929-a13b-027fb35a702c)
 
 
 ## Other relevant references comparing/validating the infinity/REST reference:
