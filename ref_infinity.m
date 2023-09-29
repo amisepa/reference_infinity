@@ -76,8 +76,6 @@
 
 function [EEG, com] = ref_infinity(EEG,varargin)
 
-com = '';
-
 % Checks
 if isempty(EEG.data)
     error('EEG.data is empty. Import data in EEGLAB first');
@@ -146,14 +144,6 @@ chanlist = 1:EEG.nbchan;
 %     end
 % end
 
-% Get elec XYZ coordinates to calculate leadfield
-xyz_elec = zeros(length(chanlist),3);
-for nc = 1:length(chanlist)
-    xyz_elec(nc,1) = EEG.chanlocs(chanlist(nc)).X;
-    xyz_elec(nc,2) = EEG.chanlocs(chanlist(nc)).Y;
-    xyz_elec(nc,3) = EEG.chanlocs(chanlist(nc)).Z;
-end
-
 % Calculate dipole orientations.
 dipoles = load(dipoles);
 xyz_dipOri = bsxfun(@rdivide, dipoles, sqrt(sum(dipoles.^ 2, 2)));
@@ -169,12 +159,76 @@ headmodel.r      = [ 0.8700,0.9200,1];
 headmodel.cond   = [ 1.0000,0.0125,1];
 headmodel.tissue = { 'brain' 'skull' 'scalp' };
 
-% Calculate leadfield
-disp('Calculating leadfield based on 3-concentric spheres headmodel...');
-[G,~] = dong_calc_leadfield3(xyz_elec,dipoles,xyz_dipOri,headmodel);
-fprintf('Lead field matrix: %g sources & %g channels \n',size(G,1),size(G,2));
+%% Calculate leadfield (REST method)
 
-% Check size match
+% Get elec XYZ coordinates to calculate leadfield
+xyz_elec = zeros(length(chanlist),3);
+for nc = 1:length(chanlist)
+    xyz_elec(nc,1) = EEG.chanlocs(chanlist(nc)).X;
+    xyz_elec(nc,2) = EEG.chanlocs(chanlist(nc)).Y;
+    xyz_elec(nc,3) = EEG.chanlocs(chanlist(nc)).Z;
+end
+
+disp('Calculating leadfield matrix using 3-concentric spheres head model...');
+if isempty(leadfield)
+    % REST method
+    [G,~] = dong_calc_leadfield3(xyz_elec,dipoles,xyz_dipOri,headmodel);
+
+    % Dipfit method
+    % dipfitPath = fileparts(which('dipfitdefs.m'));
+    % chanlocFile = fullfile(dipfitPath,'standard_BEM','elec','standard_1005.elc');   % EEG electrode locations
+    % headModelFile = fullfile(dipfitPath,'standard_BEM','standard_vol.mat');         % head model compatible with Fieldtrip
+    % headMRIFile = fullfile(dipfitPath,'standard_BEM','standard_mri.mat');           % anatomical MRI image normalized to MNI
+    % sourceMdlFile = fullfile(dipfitPath, 'LORETA-Talairach-BAs.mat');               % source model Atlas
+    % 
+    % % Dipfit parameters
+    % EEG = pop_dipfit_settings(EEG,'hdmfile',headModelFile,'coordformat','MNI',...   
+    %     'mrifile',headMRIFile,'chanfile',chanlocFile, 'coord_transform',...
+    %     [0.83215 -15.6287 2.4114 0.081214 0.00093739 -1.5732 1.1742 1.0601 1.1485],...
+    %     'chansel',1:EEG.nbchan);
+    % 
+    % % Calculate leadfield matrix (data must be epoched)
+    % if epoched
+    %     EEG.data = reshape(EEG.data, EEG.nbchan, EEG.pnts, EEG.trials); % convert back to epoched
+    % end
+    % EEG = pop_leadfield(EEG, 'sourcemodel',sourceMdlFile, ...
+    %     'sourcemodel2mni',[0 -24 -45 0 0 -1.5708 1000 1000 1000],'downsample',1);
+    % leadfield = EEG.dipfit.sourcemodel.leadfield;
+    % if epoched
+    %     EEG.data = EEG.data(:,:);       % convert back to continuous
+    % end
+    % 
+    % % Reshape for REST
+    % nDipoles = size(leadfield,2);
+    % nChan = size(EEG.data,1);
+    % for iDip = 1:nDipoles
+    %     tmp(:,:,iDip) = leadfield{iDip};
+    % end
+    % leadfield = tmp; clear tmp;
+    % 
+    % % Project the source momentum over the radial direction.
+    % if ~isempty(xyz_dipOri)
+    %     % nDipoles == size(xyz_dipOri,1)
+    %     if nDipoles ~= size(xyz_dipOri,1)
+    %         warning('Not same number of dipoles between leadfield and fixed dipoles file, adjusting to leadfield file.')
+    %         xyz_dipOri = xyz_dipOri(1:nDipoles,:);
+    %     end
+    %     leadfield   = permute ( leadfield, [ 1 3 2 ] );
+    %     leadori     = permute ( xyz_dipOri, [ 3 1 2 ] );
+    %     leadfield   = bsxfun ( @times, leadfield, leadori );
+    %     G = squeeze(sum(leadfield, 3));
+    % else
+    %     G = squeeze(sum(leadfield, 2));
+    % end
+
+else
+    G = load(leadfield);
+end
+fprintf('Lead field matrix: %g channels & %g dipoles \n',size(G,1),size(G,2));
+
+
+%% Apply reference to infinity
+
 % if size(EEG.data,1)-length(exclude) ~= size(G,1)
 if size(EEG.data,1) ~= size(G,1)
         error('No. of Channels in lead field matrix and EEG data are not equal. This may be due to AUX channels still present in the data.');
