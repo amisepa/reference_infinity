@@ -56,7 +56,7 @@ Comparison of the two conditions (unpleasant vs neutral images) on average ERP (
 ![ERP_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/8b935371-1859-4e8d-b887-33793a49e353)
 
 
-## Other relevant references on the infinity/REST reference:
+## Relevant literature on the infinity/REST reference:
 
 Yao et al. (2005). A comparative study of different references for EEG spectral mapping: the issue of the neutral reference and the use of the infinity reference
 
