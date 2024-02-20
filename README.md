@@ -43,11 +43,6 @@ Comparisons of signal amplitude between data referenced to infinity vs average, 
 ![rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/433f4041-f4ac-46ef-aaa3-35a8569a7545)
 
 
-Comparisons of the power spectra between REST-ref and AV-ref (mean across electrodes + SD):
-
-![psd_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/bba940b7-fb78-466c-872b-b8b918aee7ed)
-
-
 Comparison of scalp topographies in theta and alpha bands:
 
 ![topos_rest-av](https://github.com/amisepa/reference_infinity/assets/58382227/d9ac807c-1384-4729-9a1e-64019422af0c)
