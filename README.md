@@ -1,4 +1,4 @@
-# reref_infinity()
+# ref_infinity()
 This EEGLAB plugin allows re-referencing EEG data (continuous or epoched) to infinity using the reference electrode standardization technique (REST).
 Because the REST plugin developed by Dong et al. (2017) can only be used with the GUI, it cannot be automated to process files automatically. 
 This plugin allows using the REST method via the command line, using the default parameters and 3-concentric sphere head model. 
@@ -25,11 +25,11 @@ Dong et al. (2017). MATLAB Toolboxes for Reference Electrode Standardization Tec
 
 ## Usage
 
-EEG = reref_inf(EEG);                                           % reference to infinity using default parameters
+EEG = ref_inf(EEG);                                           % reference to infinity using default parameters
 
-EEG = reref_inf(EEG, ,'leadfield','your_leadfield_file');       % specify another leadfield file
+EEG = ref_inf(EEG, ,'leadfield','your_leadfield_file');       % specify another leadfield file
 
-EEG = reref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
+EEG = ref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
 
 ## Quick tests on sample data
 This sample dataset (Neuroscan) contains 64-channel epoched data from one subject visualizing images from the IAPS database with either unpleasant or neutral emotional valence. Data were cleaned with ASR and ICA and epoched.
