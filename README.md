@@ -19,7 +19,7 @@ Dong et al. (2017). MATLAB Toolboxes for Reference Electrode Standardization Tec
 2) Install the plugin:
     - EEGLAB GUI: File > Manage extensions > ref_rest_cmd
 
-   OR
+   or
 
     - unzipping or cloning this Github repo into EEGLAB's "plugins" folder
 4) Import EEG data into EEGLAB and remove auxiliary electrodes (option to exclude specific electrodes from the referencing not currently available)
