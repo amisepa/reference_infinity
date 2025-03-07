@@ -28,11 +28,11 @@ Dong et al. (2017). MATLAB Toolboxes for Reference Electrode Standardization Tec
 
 ## Usage
 
-EEG = ref_inf(EEG);                                           % reference to infinity using default parameters
+EEG = ref_infinity(EEG);                                           % reference to infinity using default parameters
 
-EEG = ref_inf(EEG, ,'leadfield','your_leadfield_file');       % specify another leadfield file
+EEG = ref_infinity(EEG, ,'leadfield','your_leadfield_file');       % specify another leadfield file
 
-EEG = ref_inf(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
+EEG = ref_infinity(EEG, ,'dipoles','corti869-3000dipoles.dat');    % specify another dipoles file
 
 ## Quick tests on sample data
 This sample dataset (Neuroscan) contains 64-channel epoched data from one subject visualizing images from the IAPS database with either unpleasant or neutral emotional valence. Data were cleaned with ASR and ICA and epoched.
