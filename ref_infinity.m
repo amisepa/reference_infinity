@@ -235,7 +235,8 @@ if size(EEG.data,1) ~= size(G,1)
 end
 
 % Ref to average
-EEG.data = EEG.data - repmat(mean(EEG.data),size(EEG.data,1),1);
+% EEG.data = EEG.data - repmat(mean(EEG.data),size(EEG.data,1),1);
+EEG = apply_car(EEG); % modified version to ensure no data rank loss (Kim et al. 2023)
 
 % Reference to infinity
 Gar = G - repmat(mean(G),size(G,1),1);
